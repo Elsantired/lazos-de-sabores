@@ -120,10 +120,10 @@ export default function AuthModal() {
         setDireccionData(data);
         if (dirInputRef.current) dirInputRef.current.value = data.text;
 
-        // Mini map preview
+        // Mini map link (no requiere Maps Embed API)
         if (mapPreviewRef.current) {
-          const mapUrl = `https://www.google.com/maps/embed/v1/place?key=AIzaSyAGEov_aKhicAdnFoXVRBNvIBxyC8Yt9_s&q=place_id:${place.place_id}&zoom=16`;
-          mapPreviewRef.current.innerHTML = `<iframe src="${mapUrl}" class="w-full h-full rounded-xl border-0" allowfullscreen loading="lazy"></iframe>`;
+          const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.formatted_address || '')}&query_place_id=${place.place_id}`;
+          mapPreviewRef.current.innerHTML = `<a href="${mapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-2 text-xs text-verde underline hover:text-verde-claro"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ver en Google Maps</a>`;
           mapPreviewRef.current.classList.remove('hidden');
         }
       });
@@ -284,8 +284,8 @@ export default function AuthModal() {
                     {!mapsReady && (
                       <p className="text-xs text-texto-medio/70">Ingresá calle, número y localidad (ej: Av. Colón 1234, Córdoba)</p>
                     )}
-                    {/* Map preview */}
-                    <div ref={mapPreviewRef} className="hidden h-36 mt-2 rounded-xl overflow-hidden" />
+                    {/* Map link */}
+                    <div ref={mapPreviewRef} className="hidden mt-1" />
                     {direccionData && (
                       <div className="flex items-center gap-2 text-xs text-verde bg-green-50 border border-green-200 px-3 py-2 rounded-lg mt-1">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
