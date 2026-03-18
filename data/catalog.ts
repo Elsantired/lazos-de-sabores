@@ -138,11 +138,11 @@ export const CATALOGO: Categoria[] = [
         ],
       },
       {
-        id: 'cheddar-barra',
-        nombre: 'Cheddar',
-        slug: 'queso-cheddar-arroyo-cabral',
+        id: 'tybo',
+        nombre: 'Tybo',
+        slug: 'queso-tybo-arroyo-cabral',
         img: AC_IMG + 'semiblandos/tybo.jpg',
-        alt: 'Queso Cheddar Arroyo Cabral',
+        alt: 'Queso Tybo Arroyo Cabral',
         variantes: [
           { tipo: 'Horma completa', precio: 10290, unidad: '/kg' },
           { tipo: '½ Horma', precio: 10815, unidad: '/kg' },
