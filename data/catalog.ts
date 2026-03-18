@@ -43,8 +43,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'frescos/cremoso.jpg',
         alt: 'Queso Cremoso al Vacío Arroyo Cabral — distribuidor oficial Córdoba',
         variantes: [
-          { tipo: 'Horma completa', precio: 10081, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10585, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 8400, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 8925, unidad: '/kg' },
         ],
       },
       {
@@ -54,30 +54,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'frescos/port-salut.jpg',
         alt: 'Queso Port Salut Arroyo Cabral — venta en Córdoba Capital',
         variantes: [
-          { tipo: 'Horma completa', precio: 10081, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10585, unidad: '/kg' },
-        ],
-      },
-      {
-        id: 'cremoso-light',
-        nombre: 'Cremoso Light',
-        slug: 'queso-cremoso-light-arroyo-cabral',
-        img: AC_IMG + 'frescos/cremoso.jpg',
-        alt: 'Queso Cremoso Light Arroyo Cabral — bajo en grasas, Córdoba',
-        variantes: [
-          { tipo: 'Horma completa', precio: 10081, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10585, unidad: '/kg' },
-        ],
-      },
-      {
-        id: 'barra-light',
-        nombre: 'Barra Light',
-        slug: 'queso-barra-light-arroyo-cabral',
-        img: AC_IMG + 'semiblandos/tybo-light.jpg',
-        alt: 'Queso Barra Light Arroyo Cabral — bajo en grasas',
-        variantes: [
-          { tipo: 'Horma completa', precio: 9451, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 9924, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 9030, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 9555, unidad: '/kg' },
         ],
       },
     ],
