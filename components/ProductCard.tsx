@@ -49,14 +49,13 @@ export default function ProductCard({ producto, categoria, index }: Props) {
       {/* Image */}
       <div className="relative h-48 bg-gradient-to-br from-[#e2ddd6] to-[#c8c4bc] flex items-center justify-center overflow-hidden">
         {!imgError ? (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={imgSrc}
             alt={producto.alt}
-            fill
-            className="object-contain p-2"
+            className="w-full h-full object-contain p-2"
             onError={() => setImgError(true)}
             loading="lazy"
-            sizes="(max-width: 768px) 50vw, 25vw"
           />
         ) : (
           <div className="text-6xl opacity-40">🧀</div>

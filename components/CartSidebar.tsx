@@ -44,7 +44,8 @@ export default function CartSidebar() {
           ) : items.map(item => (
             <div key={item.id} className="flex gap-3 bg-crema rounded-xl p-3">
               <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-[#e2ddd6] shrink-0">
-                <Image src={item.img} alt={item.nombre} fill className="object-contain p-1" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={item.img} alt={item.nombre} className="w-full h-full object-contain p-1" loading="lazy" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-verde text-sm truncate">
