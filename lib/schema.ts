@@ -1,0 +1,30 @@
+export const localBusinessSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: 'Lazos de Sabores',
+  description: 'Distribuidores oficiales de Quesos Arroyo Cabral en Córdoba Capital y alrededores. Venta de quesos frescos, semiblandos, duros, provoletas, dulces y crema con entrega a domicilio.',
+  url: 'https://lazosdesabores.com.ar',
+  image: 'https://lazosdesabores.com.ar/lazos-logo.png',
+  logo: 'https://lazosdesabores.com.ar/lazos-logo.png',
+  priceRange: '$$',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Córdoba',
+    addressRegion: 'Córdoba',
+    addressCountry: 'AR',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Córdoba' },
+    { '@type': 'City', name: 'Villa Carlos Paz' },
+    { '@type': 'City', name: 'Alta Gracia' },
+    { '@type': 'City', name: 'Jesús María' },
+    { '@type': 'City', name: 'Cosquín' },
+    { '@type': 'City', name: 'Río Ceballos' },
+  ],
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: '08:00',
+    closes: '18:00',
+  },
+};

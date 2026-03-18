@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+  <defs>
+    <clipPath id="clip-inner">
+      <ellipse cx="200" cy="140" rx="186" ry="122"/>
+    </clipPath>
+    <filter id="sombra" x="-6%" y="-6%" width="118%" height="118%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#00000030"/>
+    </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Pacifico&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- === SOMBRA === -->
+  <ellipse cx="200" cy="148" rx="192" ry="126" fill="#00000022" filter="url(#sombra)"/>
+
+  <!-- === BORDE BLANCO EXTERIOR === -->
+  <ellipse cx="200" cy="140" rx="192" ry="126" fill="white"/>
+
+  <!-- === FONDO VERDE (base, se ve en la banda inferior) === -->
+  <ellipse cx="200" cy="140" rx="186" ry="122" fill="#7ec617"/>
+
+  <!-- === ÓVALO ROJO PRINCIPAL (cubre la mayor parte, deja banda verde abajo) === -->
+  <ellipse cx="200" cy="113" rx="184" ry="101" fill="#cc2200"/>
+
+  <!-- === LÍNEA BLANCA FINA entre rojo y verde === -->
+  <ellipse cx="200" cy="140" rx="186" ry="122" fill="none" stroke="white" stroke-width="2.5" clip-path="url(#clip-inner)"/>
+
+  <!-- === TEXTO "Arroyo" === -->
+  <text
+    x="200" y="107"
+    font-family="Pacifico, 'Dancing Script', 'Brush Script MT', cursive"
+    font-size="74"
+    fill="white"
+    text-anchor="middle"
+    style="text-shadow: 1px 2px 4px rgba(0,0,0,0.25);">Arroyo</text>
+
+  <!-- === TEXTO "Cabral" === -->
+  <text
+    x="195" y="181"
+    font-family="Pacifico, 'Dancing Script', 'Brush Script MT', cursive"
+    font-size="74"
+    fill="white"
+    text-anchor="middle"
+    style="text-shadow: 1px 2px 4px rgba(0,0,0,0.25);">Cabral</text>
+
+  <!-- === SÍMBOLO ® === -->
+  <text
+    x="356" y="208"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="26"
+    fill="white"
+    font-weight="bold">®</text>
+</svg>
