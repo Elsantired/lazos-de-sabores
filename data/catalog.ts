@@ -1,6 +1,6 @@
 export const AC_IMG = '/productos/';
 
-export const WHATSAPP_VENDEDOR = '5493515556425';
+export const WHATSAPP_VENDEDOR = '5493516852187';
 
 export interface Variante {
   tipo: string;
