@@ -27,6 +27,9 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | null>(null);
 
+export const subtotalItem = (i: CartItem) =>
+  i.variante.precio * (i.variante.pesoAprox ?? 1) * i.cantidad;
+
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +63,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const clearCart = () => setItems([]);
 
-  const total = items.reduce((sum, i) => sum + i.variante.precio * i.cantidad, 0);
+  const total = items.reduce((sum, i) => sum + subtotalItem(i), 0);
   const count = items.reduce((sum, i) => sum + i.cantidad, 0);
 
   return (

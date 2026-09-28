@@ -6,6 +6,7 @@ export interface Variante {
   tipo: string;
   precio: number;
   unidad: string;
+  pesoAprox?: number; // peso aproximado de la pieza, en kg (solo variantes /kg)
 }
 
 export interface Producto {
@@ -43,8 +44,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'frescos/cremoso.jpg',
         alt: 'Queso Cremoso al Vacío Arroyo Cabral — distribuidor oficial Córdoba',
         variantes: [
-          { tipo: 'Horma completa', precio: 9540, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10140, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 9540, unidad: '/kg', pesoAprox: 4.2 },
+          { tipo: '½ Horma', precio: 10140, unidad: '/kg', pesoAprox: 2.1 },
         ],
       },
       {
@@ -54,8 +55,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'frescos/port-salut.jpg',
         alt: 'Queso Port Salut Arroyo Cabral — venta en Córdoba Capital',
         variantes: [
-          { tipo: 'Horma completa', precio: 10260, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10890, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 10260, unidad: '/kg', pesoAprox: 4.2 },
+          { tipo: '½ Horma', precio: 10890, unidad: '/kg', pesoAprox: 2.1 },
         ],
       },
     ],
@@ -73,8 +74,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/fynbo.jpg',
         alt: 'Queso Fynbo Arroyo Cabral — semiblando cordobés',
         variantes: [
-          { tipo: 'Horma completa', precio: 19520, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 20220, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 19520, unidad: '/kg', pesoAprox: 4.5 },
+          { tipo: '½ Horma', precio: 20220, unidad: '/kg', pesoAprox: 2.25 },
         ],
       },
       {
@@ -103,8 +104,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/fontina.jpg',
         alt: 'Queso Fontina Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 15310, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 16073, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 15310, unidad: '/kg', pesoAprox: 4 },
+          { tipo: '½ Horma', precio: 16073, unidad: '/kg', pesoAprox: 2 },
         ],
       },
     ],
@@ -122,19 +123,19 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/mozzarella.jpg',
         alt: 'Queso Mozzarella en barra Arroyo Cabral — Córdoba',
         variantes: [
-          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg', pesoAprox: 4.3 },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg', pesoAprox: 2.15 },
         ],
       },
       {
-        id: 'tybolight',
-        nombre: 'Tybo Light',
-        slug: 'queso-tybo-light-arroyo-cabral',
-        img: AC_IMG + 'semiblandos/tybo-light.jpg',
-        alt: 'Queso Tybo Light Arroyo Cabral',
+        id: 'cheddar',
+        nombre: 'Cheddar',
+        slug: 'queso-cheddar-arroyo-cabral',
+        img: AC_IMG + 'semiblandos/cheddar-barra.jpg',
+        alt: 'Queso Cheddar en barra Arroyo Cabral — Córdoba',
         variantes: [
-          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg', pesoAprox: 4.5 },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg', pesoAprox: 2.25 },
         ],
       },
       {
@@ -155,8 +156,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/pategras.jpg',
         alt: 'Queso Pategras Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg', pesoAprox: 3.9 },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg', pesoAprox: 1.95 },
         ],
       },
     ],
@@ -225,8 +226,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/romano.jpg',
         alt: 'Queso Romanito Estacionado Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 23030, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 23800, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 23030, unidad: '/kg', pesoAprox: 3.7 },
+          { tipo: '½ Horma', precio: 23800, unidad: '/kg', pesoAprox: 1.85 },
         ],
       },
       {
@@ -236,8 +237,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/sardo.jpg',
         alt: 'Queso Sardo Estacionado Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 23030, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 23800, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 23030, unidad: '/kg', pesoAprox: 3.5 },
+          { tipo: '½ Horma', precio: 23800, unidad: '/kg', pesoAprox: 1.75 },
         ],
       },
       {
@@ -247,8 +248,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/reggianito.jpg',
         alt: 'Queso Reggianito Arroyo Cabral — duro estacionado cordobés',
         variantes: [
-          { tipo: 'Horma completa', precio: 24930, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 25650, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 24930, unidad: '/kg', pesoAprox: 7 },
+          { tipo: '½ Horma', precio: 25650, unidad: '/kg', pesoAprox: 3.5 },
         ],
       },
     ],
@@ -266,8 +267,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/sbrinz.jpg',
         alt: 'Queso Sbrinz Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 20000, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 21800, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 20000, unidad: '/kg', pesoAprox: 7 },
+          { tipo: '½ Horma', precio: 21800, unidad: '/kg', pesoAprox: 3.5 },
         ],
       },
       {
@@ -277,8 +278,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/romano.jpg',
         alt: 'Queso Romanito Fresco Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 19970, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 20700, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 19970, unidad: '/kg', pesoAprox: 3.7 },
+          { tipo: '½ Horma', precio: 20700, unidad: '/kg', pesoAprox: 1.85 },
         ],
       },
       {
@@ -288,8 +289,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/sardo.jpg',
         alt: 'Queso Sardo Fresco Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 19970, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 20700, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 19970, unidad: '/kg', pesoAprox: 3.5 },
+          { tipo: '½ Horma', precio: 20700, unidad: '/kg', pesoAprox: 1.75 },
         ],
       },
     ],

@@ -1,6 +1,6 @@
 'use client';
 
-import { CartItem } from '@/context/CartContext';
+import { CartItem, subtotalItem } from '@/context/CartContext';
 import { Usuario } from '@/context/AuthContext';
 import { WHATSAPP_VENDEDOR, formatPrecio } from '@/data/catalog';
 
@@ -14,10 +14,11 @@ export function useWhatsApp() {
     const lineas = items.map(item => {
       const nombre = item.sabor ? `${item.nombre} (${item.sabor})` : item.nombre;
       const precio = formatPrecio(item.variante.precio);
-      return `• ${item.cantidad}x ${nombre} — ${item.variante.tipo} @ ${precio}${item.variante.unidad}`;
+      const pesoTxt = item.variante.pesoAprox ? ` (≈${item.variante.pesoAprox}kg c/u)` : '';
+      return `• ${item.cantidad}x ${nombre} — ${item.variante.tipo} @ ${precio}${item.variante.unidad}${pesoTxt} = ${formatPrecio(subtotalItem(item))}`;
     });
 
-    const total = items.reduce((sum, i) => sum + i.variante.precio * i.cantidad, 0);
+    const total = items.reduce((sum, i) => sum + subtotalItem(i), 0);
 
     let mensaje = `🧀 *PEDIDO — Lazos de Sabores*\n`;
     mensaje += `━━━━━━━━━━━━━━━━━━━━━━━\n\n`;

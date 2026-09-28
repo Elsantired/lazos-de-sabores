@@ -103,6 +103,11 @@ export default function ProductCard({ producto, categoria, index }: Props) {
           <div>
             <span className="text-verde font-bold text-lg">{formatPrecio(varianteActual.precio)}</span>
             <span className="text-texto-medio text-xs ml-1">{varianteActual.unidad}</span>
+            {varianteActual.pesoAprox && (
+              <p className="text-texto-medio text-xs">
+                ≈ {formatPrecio(varianteActual.precio * varianteActual.pesoAprox)} la pieza ({varianteActual.pesoAprox}kg aprox)
+              </p>
+            )}
           </div>
           <button
             onClick={handleAdd}

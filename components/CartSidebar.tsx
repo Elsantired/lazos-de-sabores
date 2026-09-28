@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useCart } from '@/context/CartContext';
+import { useCart, subtotalItem } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 import { useWhatsApp } from '@/hooks/useWhatsApp';
 import { formatPrecio } from '@/data/catalog';
@@ -52,7 +52,8 @@ export default function CartSidebar() {
                   {item.nombre}{item.sabor ? ` (${item.sabor})` : ''}
                 </p>
                 <p className="text-xs text-texto-medio">{item.variante.tipo}</p>
-                <p className="text-verde font-bold text-sm">{formatPrecio(item.variante.precio)}{item.variante.unidad}</p>
+                <p className="text-texto-medio text-xs">{formatPrecio(item.variante.precio)}{item.variante.unidad}{item.variante.pesoAprox ? ` · ≈${item.variante.pesoAprox}kg` : ''}</p>
+                <p className="text-verde font-bold text-sm">{formatPrecio(subtotalItem(item))}</p>
               </div>
               <div className="flex flex-col items-center gap-1">
                 <button onClick={() => updateQty(item.id, 1)} className="w-6 h-6 bg-verde text-crema rounded-full text-xs hover:bg-verde-claro flex items-center justify-center">+</button>
