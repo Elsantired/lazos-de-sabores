@@ -141,7 +141,7 @@ export default function AuthModal() {
   useEffect(() => {
     if (document.querySelector('script[data-maps]')) return;
     const s = document.createElement('script');
-    s.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAGEov_aKhicAdnFoXVRBNvIBxyC8Yt9_s&libraries=places&language=es&region=AR&callback=initMapsAutocomplete`;
+    s.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB1XetSTO0NWa9ZveSHwwr2AaGpbyE4ATs&libraries=places&language=es&region=AR&callback=initMapsAutocomplete`;
     s.async = true;
     s.defer = true;
     s.setAttribute('data-maps', '1');
