@@ -46,30 +46,49 @@ function validarPassword(v: string) {
 }
 
 /* ---------- Field component ---------- */
-function Field({ id, label, type = 'text', placeholder, autoComplete, hint, inputMode, maxLength, defaultValue, disabled }: {
+function Field({ id, label, type = 'text', placeholder, autoComplete, hint, inputMode, maxLength, defaultValue, disabled, togglePassword }: {
   id: string; label: string; type?: string; placeholder?: string; autoComplete?: string;
-  hint?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']; maxLength?: number; defaultValue?: string; disabled?: boolean;
+  hint?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']; maxLength?: number; defaultValue?: string; disabled?: boolean; togglePassword?: boolean;
 }) {
   const [state, setState] = useState<'idle' | 'ok' | 'err'>('idle');
   const [msg, setMsg] = useState(hint || '');
+  const [visible, setVisible] = useState(false);
+  const esPassword = type === 'password';
 
   return (
     <div className={`flex flex-col gap-1 ${state === 'err' ? 'text-red-600' : state === 'ok' ? 'text-green-700' : 'text-texto-medio'}`}>
       <label htmlFor={id} className="text-xs font-bold uppercase tracking-wider text-texto">{label}</label>
+      <div className="relative">
       <input
         id={id}
-        type={type}
+        type={esPassword && togglePassword && visible ? 'text' : type}
         placeholder={placeholder}
         autoComplete={autoComplete}
         inputMode={inputMode}
         maxLength={maxLength}
         defaultValue={defaultValue}
         disabled={disabled}
-        className={`w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all bg-crema disabled:opacity-60 disabled:cursor-not-allowed ${
+        className={`w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all bg-crema disabled:opacity-60 disabled:cursor-not-allowed ${esPassword && togglePassword ? 'pr-11' : ''} ${
           state === 'err' ? 'border-red-400 bg-red-50' : state === 'ok' ? 'border-green-500 bg-green-50/30' : 'border-crema-oscuro focus:border-verde'
         }`}
         onFocus={() => { setState('idle'); setMsg(hint || ''); }}
       />
+      {esPassword && togglePassword && (
+        <button
+          type="button"
+          tabIndex={-1}
+          onClick={() => setVisible(v => !v)}
+          aria-label={visible ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+          className="absolute right-3 top-1/2 -translate-y-1/2 text-texto-medio/60 hover:text-verde"
+        >
+          {visible ? (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          ) : (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          )}
+        </button>
+      )}
+      </div>
       {msg && <p className="text-xs">{msg}</p>}
     </div>
   );
@@ -192,6 +211,7 @@ export default function AuthModal() {
     const email = (document.getElementById('reg-email') as HTMLInputElement)?.value;
     const telefono = (document.getElementById('reg-telefono') as HTMLInputElement)?.value;
     const password = (document.getElementById('reg-password') as HTMLInputElement)?.value || '';
+    const passwordConfirm = (document.getElementById('reg-password-confirm') as HTMLInputElement)?.value || '';
     const direccion = dirInputRef.current?.value || '';
 
     const errNombre = validarNombre(nombre);
@@ -202,6 +222,10 @@ export default function AuthModal() {
 
     if (errNombre || errApellido || errEmail || errTel || errPassword) {
       setError(errNombre || errApellido || errEmail || errTel || errPassword || 'Revisá los campos');
+      return;
+    }
+    if (!editMode && password !== passwordConfirm) {
+      setError('Las contraseñas no coinciden');
       return;
     }
     if (!direccion || direccion.length < 8) {
@@ -266,7 +290,7 @@ export default function AuthModal() {
                 <p className="text-texto-medio text-sm text-center mb-6">Ingresá con tu email para realizar pedidos</p>
                 <div className="space-y-4">
                   <Field id="login-email" label="Email" type="email" placeholder="tucorreo@email.com" autoComplete="email" />
-                  <Field id="login-password" label="Contraseña" type="password" placeholder="••••••••" autoComplete="current-password" />
+                  <Field id="login-password" label="Contraseña" type="password" placeholder="••••••••" autoComplete="current-password" togglePassword />
                   {error && <p className="text-red-600 text-sm text-center">{error}</p>}
                   <button onClick={handleLogin} disabled={enviando} className="w-full bg-verde text-crema font-bold py-3 rounded-full hover:bg-verde-claro transition-colors disabled:opacity-60">
                     {enviando ? 'Ingresando...' : 'Ingresar'}
@@ -295,7 +319,10 @@ export default function AuthModal() {
                   {editMode && <p className="text-xs text-texto-medio/70 -mt-2">El email no se puede cambiar desde acá.</p>}
                   <Field id="reg-telefono" label="Teléfono / WhatsApp *" type="tel" placeholder="351 123-4567" autoComplete="tel" hint="Sin 0 ni 15 — solo código de área y número" maxLength={20} defaultValue={editMode ? usuario?.telefono : undefined} />
                   {!editMode && (
-                    <Field id="reg-password" label="Contraseña *" type="password" placeholder="••••••••" autoComplete="new-password" hint="Mínimo 6 caracteres" />
+                    <div className="grid grid-cols-2 gap-3">
+                      <Field id="reg-password" label="Contraseña *" type="password" placeholder="••••••••" autoComplete="new-password" hint="Mínimo 6 caracteres" togglePassword />
+                      <Field id="reg-password-confirm" label="Repetir contraseña *" type="password" placeholder="••••••••" autoComplete="new-password" togglePassword />
+                    </div>
                   )}
 
                   {/* Address */}
