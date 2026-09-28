@@ -43,8 +43,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'frescos/cremoso.jpg',
         alt: 'Queso Cremoso al Vacío Arroyo Cabral — distribuidor oficial Córdoba',
         variantes: [
-          { tipo: 'Horma completa', precio: 8400, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 8925, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 9540, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 10140, unidad: '/kg' },
         ],
       },
       {
@@ -54,8 +54,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'frescos/port-salut.jpg',
         alt: 'Queso Port Salut Arroyo Cabral — venta en Córdoba Capital',
         variantes: [
-          { tipo: 'Horma completa', precio: 9030, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 9555, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 10260, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 10890, unidad: '/kg' },
         ],
       },
     ],
@@ -73,8 +73,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/fynbo.jpg',
         alt: 'Queso Fynbo Arroyo Cabral — semiblando cordobés',
         variantes: [
-          { tipo: 'Horma completa', precio: 16700, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 17301, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 19520, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 20220, unidad: '/kg' },
         ],
       },
       {
@@ -83,7 +83,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'queso-mini-fynbo-arroyo-cabral',
         img: AC_IMG + 'semiblandos/mini-fynbo.jpg',
         alt: 'Queso Mini Fynbo Arroyo Cabral',
-        variantes: [{ tipo: 'Horma completa', precio: 14850, unidad: '/kg' }],
+        variantes: [{ tipo: 'Horma completa', precio: 17360, unidad: '/kg' }],
       },
       {
         id: 'holanda',
@@ -92,8 +92,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/holanda.jpg',
         alt: 'Queso Holanda Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 12349, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 12972, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 14430, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 15200, unidad: '/kg' },
         ],
       },
       {
@@ -103,8 +103,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/fontina.jpg',
         alt: 'Queso Fontina Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 13097, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 13755, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 15310, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 16073, unidad: '/kg' },
         ],
       },
     ],
@@ -122,8 +122,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/mozzarella.jpg',
         alt: 'Queso Mozzarella en barra Arroyo Cabral — Córdoba',
         variantes: [
-          { tipo: 'Horma completa', precio: 10290, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10815, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
         ],
       },
       {
@@ -133,8 +133,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/tybo-light.jpg',
         alt: 'Queso Tybo Light Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 10290, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10815, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
         ],
       },
       {
@@ -144,8 +144,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/tybo.jpg',
         alt: 'Queso Tybo Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 10290, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10815, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
         ],
       },
       {
@@ -155,8 +155,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/pategras.jpg',
         alt: 'Queso Pategras Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 10290, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 10815, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 11690, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 12280, unidad: '/kg' },
         ],
       },
     ],
@@ -173,7 +173,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'queso-camembert-arroyo-cabral',
         img: AC_IMG + 'especiales/camembert.jpg',
         alt: 'Queso Camembert Arroyo Cabral — especial Córdoba',
-        variantes: [{ tipo: 'Por unidad', precio: 5491, unidad: 'c/u' }],
+        variantes: [{ tipo: 'Por unidad', precio: 6060, unidad: 'c/u' }],
       },
       {
         id: 'briecuna',
@@ -181,7 +181,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'queso-brie-cuna-arroyo-cabral',
         img: AC_IMG + 'especiales/brie.jpg',
         alt: 'Queso Brie Cuna Arroyo Cabral',
-        variantes: [{ tipo: 'Por unidad', precio: 3910, unidad: 'c/u' }],
+        variantes: [{ tipo: 'Por unidad', precio: 4310, unidad: 'c/u' }],
       },
     ],
   },
@@ -208,7 +208,7 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'fundidos/tybo.jpg',
         alt: 'Queso Fundido Untable Arroyo Cabral — 6 sabores',
         esFundido: true,
-        variantes: [{ tipo: 'Por unidad', precio: 1543, unidad: 'c/u' }],
+        variantes: [{ tipo: 'Por unidad', precio: 1760, unidad: 'c/u' }],
       },
     ],
   },
@@ -225,8 +225,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/romano.jpg',
         alt: 'Queso Romanito Estacionado Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 19708, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 20332, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 23030, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 23800, unidad: '/kg' },
         ],
       },
       {
@@ -236,8 +236,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/sardo.jpg',
         alt: 'Queso Sardo Estacionado Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 19708, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 20332, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 23030, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 23800, unidad: '/kg' },
         ],
       },
       {
@@ -247,8 +247,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/reggianito.jpg',
         alt: 'Queso Reggianito Arroyo Cabral — duro estacionado cordobés',
         variantes: [
-          { tipo: 'Horma completa', precio: 21329, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 21945, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 24930, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 25650, unidad: '/kg' },
         ],
       },
     ],
@@ -266,8 +266,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/sbrinz.jpg',
         alt: 'Queso Sbrinz Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 17962, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 18586, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 20000, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 21800, unidad: '/kg' },
         ],
       },
       {
@@ -277,8 +277,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/romano.jpg',
         alt: 'Queso Romanito Fresco Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 17088, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 17712, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 19970, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 20700, unidad: '/kg' },
         ],
       },
       {
@@ -288,8 +288,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'duros/sardo.jpg',
         alt: 'Queso Sardo Fresco Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 17088, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 17712, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 19970, unidad: '/kg' },
+          { tipo: '½ Horma', precio: 20700, unidad: '/kg' },
         ],
       },
     ],
@@ -306,7 +306,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'provoleta-parrillero-arroyo-cabral',
         img: AC_IMG + 'duros/provolone-parr.jpg',
         alt: 'Provoleta Parrillero Arroyo Cabral — dos rodajas',
-        variantes: [{ tipo: 'Por kg', precio: 18942, unidad: '/kg' }],
+        variantes: [{ tipo: 'Por kg', precio: 22082, unidad: '/kg' }],
       },
       {
         id: 'parrillero-mitad',
@@ -314,7 +314,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'provoleta-mitad-arroyo-cabral',
         img: AC_IMG + 'duros/provolone-hilado.jpg',
         alt: 'Provoleta Parrillero en Mitad Arroyo Cabral',
-        variantes: [{ tipo: 'Por kg', precio: 18942, unidad: '/kg' }],
+        variantes: [{ tipo: 'Por kg', precio: 22082, unidad: '/kg' }],
       },
     ],
   },
@@ -330,7 +330,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'dulce-de-leche-clasico-arroyo-cabral',
         img: AC_IMG + 'dulces/clasico.jpg',
         alt: 'Dulce de Leche Clásico Arroyo Cabral — Córdoba',
-        variantes: [{ tipo: 'Por unidad', precio: 3800, unidad: 'c/u' }],
+        variantes: [{ tipo: 'Por unidad', precio: 4400, unidad: 'c/u' }],
       },
       {
         id: 'ddl-repostero',
@@ -338,7 +338,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'dulce-de-leche-repostero-arroyo-cabral',
         img: AC_IMG + 'dulces/repostero.jpg',
         alt: 'Dulce de Leche Repostero Arroyo Cabral',
-        variantes: [{ tipo: 'Por unidad', precio: 4300, unidad: 'c/u' }],
+        variantes: [{ tipo: 'Por unidad', precio: 5000, unidad: 'c/u' }],
       },
     ],
   },
@@ -354,7 +354,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'crema-de-leche-arroyo-cabral',
         img: AC_IMG + 'crema/crema-leche.jpg',
         alt: 'Crema de Leche Arroyo Cabral 200g',
-        variantes: [{ tipo: 'Por unidad', precio: 1982, unidad: 'c/u' }],
+        variantes: [{ tipo: 'Por unidad', precio: 2340, unidad: 'c/u' }],
       },
     ],
   },
