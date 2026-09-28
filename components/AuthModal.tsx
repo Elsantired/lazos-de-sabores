@@ -39,10 +39,16 @@ function validarTel(v: string) {
   return null;
 }
 
+function validarPassword(v: string) {
+  if (!v) return 'Campo obligatorio';
+  if (v.length < 6) return 'Mínimo 6 caracteres';
+  return null;
+}
+
 /* ---------- Field component ---------- */
-function Field({ id, label, type = 'text', placeholder, autoComplete, hint, inputMode, maxLength }: {
+function Field({ id, label, type = 'text', placeholder, autoComplete, hint, inputMode, maxLength, defaultValue, disabled }: {
   id: string; label: string; type?: string; placeholder?: string; autoComplete?: string;
-  hint?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']; maxLength?: number;
+  hint?: string; inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode']; maxLength?: number; defaultValue?: string; disabled?: boolean;
 }) {
   const [state, setState] = useState<'idle' | 'ok' | 'err'>('idle');
   const [msg, setMsg] = useState(hint || '');
@@ -57,7 +63,9 @@ function Field({ id, label, type = 'text', placeholder, autoComplete, hint, inpu
         autoComplete={autoComplete}
         inputMode={inputMode}
         maxLength={maxLength}
-        className={`w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all bg-crema ${
+        defaultValue={defaultValue}
+        disabled={disabled}
+        className={`w-full px-4 py-3 rounded-xl border-2 text-sm outline-none transition-all bg-crema disabled:opacity-60 disabled:cursor-not-allowed ${
           state === 'err' ? 'border-red-400 bg-red-50' : state === 'ok' ? 'border-green-500 bg-green-50/30' : 'border-crema-oscuro focus:border-verde'
         }`}
         onFocus={() => { setState('idle'); setMsg(hint || ''); }}
@@ -75,9 +83,10 @@ declare global {
 }
 
 export default function AuthModal() {
-  const { isAuthOpen, setIsAuthOpen, authTab, setAuthTab, usuario, login, registro, logout } = useAuth();
+  const { isAuthOpen, setIsAuthOpen, authTab, setAuthTab, usuario, login, registro, logout, updateUsuario } = useAuth();
   const [error, setError] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [enviando, setEnviando] = useState(false);
   const [mapsReady, setMapsReady] = useState(false);
   const [direccionData, setDireccionData] = useState<{ text: string; lat?: number; lng?: number; placeId?: string; formatted?: string } | null>(null);
   const autocompleteRef = useRef<unknown>(null);
@@ -137,6 +146,22 @@ export default function AuthModal() {
     }
   }, [isAuthOpen, authTab, editMode]);
 
+  /* Prefill address when editing an existing profile */
+  useEffect(() => {
+    if (authTab === 'registro' && editMode && usuario) {
+      if (dirInputRef.current) dirInputRef.current.value = usuario.formattedAddress || usuario.direccion;
+      if (usuario.lat != null && usuario.lng != null) {
+        setDireccionData({
+          text: usuario.formattedAddress || usuario.direccion,
+          lat: usuario.lat,
+          lng: usuario.lng,
+          placeId: usuario.placeId,
+          formatted: usuario.formattedAddress,
+        });
+      }
+    }
+  }, [authTab, editMode, usuario]);
+
   /* Load script once */
   useEffect(() => {
     if (document.querySelector('script[data-maps]')) return;
@@ -148,29 +173,35 @@ export default function AuthModal() {
     document.body.appendChild(s);
   }, []);
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setError('');
     const email = (document.getElementById('login-email') as HTMLInputElement)?.value;
+    const password = (document.getElementById('login-password') as HTMLInputElement)?.value;
     if (!email) { setError('Ingresá tu email'); return; }
-    const ok = login(email);
-    if (!ok) setError('No encontramos una cuenta con ese email. ¿Querés registrarte?');
+    if (!password) { setError('Ingresá tu contraseña'); return; }
+    setEnviando(true);
+    const err = await login(email, password);
+    setEnviando(false);
+    if (err) setError(err);
   };
 
-  const handleRegistro = () => {
+  const handleRegistro = async () => {
     setError('');
     const nombre = (document.getElementById('reg-nombre') as HTMLInputElement)?.value;
     const apellido = (document.getElementById('reg-apellido') as HTMLInputElement)?.value;
     const email = (document.getElementById('reg-email') as HTMLInputElement)?.value;
     const telefono = (document.getElementById('reg-telefono') as HTMLInputElement)?.value;
+    const password = (document.getElementById('reg-password') as HTMLInputElement)?.value || '';
     const direccion = dirInputRef.current?.value || '';
 
     const errNombre = validarNombre(nombre);
     const errApellido = validarNombre(apellido);
     const errEmail = validarEmail(email);
     const errTel = validarTel(telefono);
+    const errPassword = editMode ? null : validarPassword(password);
 
-    if (errNombre || errApellido || errEmail || errTel) {
-      setError(errNombre || errApellido || errEmail || errTel || 'Revisá los campos');
+    if (errNombre || errApellido || errEmail || errTel || errPassword) {
+      setError(errNombre || errApellido || errEmail || errTel || errPassword || 'Revisá los campos');
       return;
     }
     if (!direccion || direccion.length < 8) {
@@ -183,7 +214,7 @@ export default function AuthModal() {
     }
 
     const d = normalizarTel(telefono.trim());
-    const ok = registro({
+    const payload = {
       nombre: nombre.trim().replace(/\b\w/g, c => c.toUpperCase()),
       apellido: apellido.trim().replace(/\b\w/g, c => c.toUpperCase()),
       email: email.trim().toLowerCase(),
@@ -193,9 +224,14 @@ export default function AuthModal() {
       lng: direccionData?.lng,
       placeId: direccionData?.placeId,
       formattedAddress: direccionData?.formatted,
-    });
+    };
 
-    if (!ok) setError('Ya existe una cuenta con ese email. ¿Querés ingresar?');
+    setEnviando(true);
+    const err = editMode ? await updateUsuario(payload) : await registro({ ...payload, password });
+    setEnviando(false);
+
+    if (err) { setError(err); return; }
+    setEditMode(false);
   };
 
   if (!isAuthOpen) return null;
@@ -230,13 +266,14 @@ export default function AuthModal() {
                 <p className="text-texto-medio text-sm text-center mb-6">Ingresá con tu email para realizar pedidos</p>
                 <div className="space-y-4">
                   <Field id="login-email" label="Email" type="email" placeholder="tucorreo@email.com" autoComplete="email" />
+                  <Field id="login-password" label="Contraseña" type="password" placeholder="••••••••" autoComplete="current-password" />
                   {error && <p className="text-red-600 text-sm text-center">{error}</p>}
-                  <button onClick={handleLogin} className="w-full bg-verde text-crema font-bold py-3 rounded-full hover:bg-verde-claro transition-colors">
-                    Ingresar
+                  <button onClick={handleLogin} disabled={enviando} className="w-full bg-verde text-crema font-bold py-3 rounded-full hover:bg-verde-claro transition-colors disabled:opacity-60">
+                    {enviando ? 'Ingresando...' : 'Ingresar'}
                   </button>
                   <p className="text-center text-sm text-texto-medio">
                     ¿No tenés cuenta?{' '}
-                    <button onClick={() => { setAuthTab('registro'); setError(''); }} className="text-verde font-bold hover:underline">
+                    <button onClick={() => { setAuthTab('registro'); setEditMode(false); setError(''); }} className="text-verde font-bold hover:underline">
                       Registrate aquí
                     </button>
                   </p>
@@ -247,15 +284,19 @@ export default function AuthModal() {
             {/* --- REGISTRO --- */}
             {authTab === 'registro' && (
               <div>
-                <h3 className="text-2xl font-['Playfair_Display'] font-bold text-verde text-center mb-1">Crear cuenta</h3>
-                <p className="text-texto-medio text-sm text-center mb-6">Completá tus datos para realizar pedidos fácilmente</p>
+                <h3 className="text-2xl font-['Playfair_Display'] font-bold text-verde text-center mb-1">{editMode ? 'Editar datos' : 'Crear cuenta'}</h3>
+                <p className="text-texto-medio text-sm text-center mb-6">{editMode ? 'Actualizá tus datos de contacto y entrega' : 'Completá tus datos para realizar pedidos fácilmente'}</p>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-3">
-                    <Field id="reg-nombre" label="Nombre *" placeholder="Juan" autoComplete="given-name" />
-                    <Field id="reg-apellido" label="Apellido *" placeholder="García" autoComplete="family-name" />
+                    <Field id="reg-nombre" label="Nombre *" placeholder="Juan" autoComplete="given-name" defaultValue={editMode ? usuario?.nombre : undefined} />
+                    <Field id="reg-apellido" label="Apellido *" placeholder="García" autoComplete="family-name" defaultValue={editMode ? usuario?.apellido : undefined} />
                   </div>
-                  <Field id="reg-email" label="Email *" type="email" placeholder="tucorreo@email.com" autoComplete="email" />
-                  <Field id="reg-telefono" label="Teléfono / WhatsApp *" type="tel" placeholder="351 123-4567" autoComplete="tel" hint="Sin 0 ni 15 — solo código de área y número" maxLength={20} />
+                  <Field id="reg-email" label="Email *" type="email" placeholder="tucorreo@email.com" autoComplete="email" defaultValue={editMode ? usuario?.email : undefined} disabled={editMode} />
+                  {editMode && <p className="text-xs text-texto-medio/70 -mt-2">El email no se puede cambiar desde acá.</p>}
+                  <Field id="reg-telefono" label="Teléfono / WhatsApp *" type="tel" placeholder="351 123-4567" autoComplete="tel" hint="Sin 0 ni 15 — solo código de área y número" maxLength={20} defaultValue={editMode ? usuario?.telefono : undefined} />
+                  {!editMode && (
+                    <Field id="reg-password" label="Contraseña *" type="password" placeholder="••••••••" autoComplete="new-password" hint="Mínimo 6 caracteres" />
+                  )}
 
                   {/* Address */}
                   <div className="flex flex-col gap-1">
@@ -295,15 +336,21 @@ export default function AuthModal() {
                   </div>
 
                   {error && <p className="text-red-600 text-sm text-center bg-red-50 px-4 py-2 rounded-xl">{error}</p>}
-                  <button onClick={handleRegistro} className="w-full bg-verde text-crema font-bold py-3 rounded-full hover:bg-verde-claro transition-colors mt-2">
-                    Crear Cuenta
+                  <button onClick={handleRegistro} disabled={enviando} className="w-full bg-verde text-crema font-bold py-3 rounded-full hover:bg-verde-claro transition-colors mt-2 disabled:opacity-60">
+                    {enviando ? 'Guardando...' : editMode ? 'Guardar Cambios' : 'Crear Cuenta'}
                   </button>
-                  <p className="text-center text-sm text-texto-medio">
-                    ¿Ya tenés cuenta?{' '}
-                    <button onClick={() => { setAuthTab('login'); setError(''); }} className="text-verde font-bold hover:underline">
-                      Ingresá aquí
+                  {editMode ? (
+                    <button onClick={() => { setAuthTab('perfil'); setEditMode(false); setError(''); }} className="w-full text-center text-sm text-texto-medio hover:text-verde">
+                      Cancelar
                     </button>
-                  </p>
+                  ) : (
+                    <p className="text-center text-sm text-texto-medio">
+                      ¿Ya tenés cuenta?{' '}
+                      <button onClick={() => { setAuthTab('login'); setError(''); }} className="text-verde font-bold hover:underline">
+                        Ingresá aquí
+                      </button>
+                    </p>
+                  )}
                 </div>
               </div>
             )}
