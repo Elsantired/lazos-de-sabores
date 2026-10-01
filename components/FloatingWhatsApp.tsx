@@ -1,13 +1,15 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
+import { WHATSAPP_VENDEDOR } from '@/data/catalog';
 
 export default function FloatingWhatsApp() {
   const { items, setIsCheckoutOpen } = useCart();
 
   const handleClick = () => {
     if (items.length === 0) {
-      alert('Tu carrito está vacío. Agregá productos antes de enviar el pedido.');
+      const mensaje = encodeURIComponent('Hola Lazos de Sabores, quiero hacerte una consulta!');
+      window.open(`https://wa.me/${WHATSAPP_VENDEDOR}?text=${mensaje}`, '_blank');
       return;
     }
     setIsCheckoutOpen(true);
