@@ -7,6 +7,7 @@ import Contacto from '@/components/Contacto';
 import Footer from '@/components/Footer';
 import CartSidebar from '@/components/CartSidebar';
 import AuthModal from '@/components/AuthModal';
+import CheckoutModal from '@/components/CheckoutModal';
 import FloatingWhatsApp from '@/components/FloatingWhatsApp';
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <Footer />
       <CartSidebar />
       <AuthModal />
+      <CheckoutModal />
       <FloatingWhatsApp />
     </main>
   );

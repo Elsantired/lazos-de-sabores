@@ -1,11 +1,24 @@
 'use client';
 
 import { CartItem, subtotalItem } from '@/context/CartContext';
-import { Usuario } from '@/context/AuthContext';
 import { WHATSAPP_VENDEDOR, formatPrecio } from '@/data/catalog';
 
+export interface DatosCheckout {
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  formaEntrega: 'envio' | 'retiro';
+  direccion?: string;
+  formaPago: 'efectivo' | 'transferencia';
+}
+
+const LABEL_PAGO: Record<DatosCheckout['formaPago'], string> = {
+  efectivo: 'Efectivo',
+  transferencia: 'Transferencia bancaria',
+};
+
 export function useWhatsApp() {
-  const enviarPedido = (items: CartItem[], usuario: Usuario | null) => {
+  const enviarPedido = (items: CartItem[], datos: DatosCheckout) => {
     if (items.length === 0) {
       alert('Tu carrito está vacío. Agregá productos antes de enviar el pedido.');
       return;
@@ -33,20 +46,16 @@ export function useWhatsApp() {
       mensaje += `\n\n⚠️ _Los precios de hormas son estimados según el peso promedio de cada pieza. El vendedor te va a confirmar el total exacto al coordinar la entrega, una vez pesada la pieza real._`;
     }
 
-    if (usuario) {
-      mensaje += `\n\n👤 *DATOS DE ENTREGA:*\n`;
-      mensaje += `Nombre: ${usuario.nombre} ${usuario.apellido}\n`;
-      mensaje += `WhatsApp: ${usuario.telefono}\n`;
-      if (usuario.formattedAddress) {
-        mensaje += `Dirección: ${usuario.formattedAddress}\n`;
-      } else {
-        mensaje += `Dirección: ${usuario.direccion}\n`;
-      }
-    } else {
-      mensaje += `\n\n_Por favor registrate para agilizar el proceso de entrega._`;
+    mensaje += `\n\n👤 *DATOS DEL PEDIDO:*\n`;
+    mensaje += `Nombre: ${datos.nombre} ${datos.apellido}\n`;
+    mensaje += `WhatsApp: ${datos.telefono}\n`;
+    mensaje += `Entrega: ${datos.formaEntrega === 'envio' ? 'Envío a domicilio' : 'Retiro personal'}\n`;
+    if (datos.formaEntrega === 'envio' && datos.direccion) {
+      mensaje += `Dirección: ${datos.direccion}\n`;
     }
+    mensaje += `Forma de pago: ${LABEL_PAGO[datos.formaPago]}\n`;
 
-    mensaje += `\n\n✅ Confirmo mi pedido y espero ser contactado para coordinar la entrega.`;
+    mensaje += `\n✅ Confirmo mi pedido y espero ser contactado para coordinar la entrega.`;
 
     const url = `https://wa.me/${WHATSAPP_VENDEDOR}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');

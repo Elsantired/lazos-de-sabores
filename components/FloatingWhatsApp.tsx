@@ -1,17 +1,21 @@
 'use client';
 
 import { useCart } from '@/context/CartContext';
-import { useAuth } from '@/context/AuthContext';
-import { useWhatsApp } from '@/hooks/useWhatsApp';
 
 export default function FloatingWhatsApp() {
-  const { items } = useCart();
-  const { usuario } = useAuth();
-  const { enviarPedido } = useWhatsApp();
+  const { items, setIsCheckoutOpen } = useCart();
+
+  const handleClick = () => {
+    if (items.length === 0) {
+      alert('Tu carrito está vacío. Agregá productos antes de enviar el pedido.');
+      return;
+    }
+    setIsCheckoutOpen(true);
+  };
 
   return (
     <button
-      onClick={() => enviarPedido(items, usuario)}
+      onClick={handleClick}
       aria-label="Pedir por WhatsApp"
       title="Pedir por WhatsApp"
       className="fixed bottom-7 right-7 z-40 bg-[#25d366] text-white rounded-full shadow-lg hover:bg-[#20bc5a] transition-all duration-300 hover:scale-105 flex items-center gap-2 px-4 py-3 group"

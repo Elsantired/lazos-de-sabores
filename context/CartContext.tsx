@@ -36,6 +36,8 @@ interface CartContextType {
   count: number;
   isOpen: boolean;
   setIsOpen: (v: boolean) => void;
+  isCheckoutOpen: boolean;
+  setIsCheckoutOpen: (v: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | null>(null);
@@ -46,6 +48,7 @@ export const subtotalItem = (i: CartItem) =>
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem('lzs_carrito');
@@ -66,7 +69,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (existing) return prev.map(i => i.id === item.id ? { ...i, cantidad: i.cantidad + 1 } : i);
       return [...prev, { ...item, cantidad: 1 }];
     });
-    setIsOpen(true);
   };
 
   const removeItem = (id: string) => setItems(prev => prev.filter(i => i.id !== id));
@@ -84,7 +86,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const count = items.reduce((sum, i) => sum + i.cantidad, 0);
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, updateQty, clearCart, total, count, isOpen, setIsOpen }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, updateQty, clearCart, total, count, isOpen, setIsOpen, isCheckoutOpen, setIsCheckoutOpen }}>
       {children}
     </CartContext.Provider>
   );

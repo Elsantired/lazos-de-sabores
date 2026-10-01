@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useAuth } from '@/context/AuthContext';
+import { useAddressAutocomplete } from '@/hooks/useAddressAutocomplete';
 
 /* ---------- Validators ---------- */
 function validarNombre(v: string) {
@@ -94,84 +95,22 @@ function Field({ id, label, type = 'text', placeholder, autoComplete, hint, inpu
   );
 }
 
-declare global {
-  interface Window {
-    google?: { maps?: { places?: unknown } };
-    initMapsAutocomplete?: () => void;
-  }
-}
-
 export default function AuthModal() {
   const { isAuthOpen, setIsAuthOpen, authTab, setAuthTab, usuario, login, registro, logout, updateUsuario } = useAuth();
   const [error, setError] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [enviando, setEnviando] = useState(false);
-  const [mapsReady, setMapsReady] = useState(false);
-  const [direccionData, setDireccionData] = useState<{ text: string; lat?: number; lng?: number; placeId?: string; formatted?: string } | null>(null);
-  const autocompleteRef = useRef<unknown>(null);
-  const dirInputRef = useRef<HTMLInputElement>(null);
-  const mapPreviewRef = useRef<HTMLDivElement>(null);
 
-  /* Init Google Maps */
-  useEffect(() => {
-    if (!isAuthOpen) return;
-    if (authTab !== 'registro' && !(authTab === 'perfil' && editMode)) return;
-
-    const init = () => {
-      if (!window.google?.maps) return;
-      setMapsReady(true);
-      if (!dirInputRef.current) return;
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const ac = new (window.google.maps as any).places.Autocomplete(dirInputRef.current, {
-        componentRestrictions: { country: 'ar' },
-        fields: ['formatted_address', 'geometry', 'place_id', 'name'],
-        types: ['address'],
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        bounds: new (window.google.maps as any).LatLngBounds(
-          { lat: -33.0, lng: -65.5 },
-          { lat: -29.5, lng: -62.5 }
-        ),
-        strictBounds: false,
-      });
-
-      ac.addListener('place_changed', () => {
-        const place = ac.getPlace();
-        if (!place.geometry) return;
-        const data = {
-          text: place.formatted_address || dirInputRef.current?.value || '',
-          lat: place.geometry.location.lat(),
-          lng: place.geometry.location.lng(),
-          placeId: place.place_id,
-          formatted: place.formatted_address,
-        };
-        setDireccionData(data);
-        if (dirInputRef.current) dirInputRef.current.value = data.text;
-
-        // Mini map link (no requiere Maps Embed API)
-        if (mapPreviewRef.current) {
-          const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.formatted_address || '')}&query_place_id=${place.place_id}`;
-          mapPreviewRef.current.innerHTML = `<a href="${mapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-2 text-xs text-verde underline hover:text-verde-claro"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Ver en Google Maps</a>`;
-          mapPreviewRef.current.classList.remove('hidden');
-        }
-      });
-      autocompleteRef.current = ac;
-    };
-
-    if (window.google?.maps) {
-      init();
-    } else {
-      window.initMapsAutocomplete = init;
-    }
-  }, [isAuthOpen, authTab, editMode]);
+  const { inputRef: dirInputRef, mapsReady, direccionData, setDireccionData } = useAddressAutocomplete(isAuthOpen && authTab === 'registro');
 
   /* Prefill address when editing an existing profile */
   useEffect(() => {
     if (authTab === 'registro' && editMode && usuario) {
-      if (dirInputRef.current) dirInputRef.current.value = usuario.formattedAddress || usuario.direccion;
+      const dir = usuario.formattedAddress || usuario.direccion;
+      if (dirInputRef.current) dirInputRef.current.value = dir;
       if (usuario.lat != null && usuario.lng != null) {
         setDireccionData({
-          text: usuario.formattedAddress || usuario.direccion,
+          text: dir,
           lat: usuario.lat,
           lng: usuario.lng,
           placeId: usuario.placeId,
@@ -179,18 +118,7 @@ export default function AuthModal() {
         });
       }
     }
-  }, [authTab, editMode, usuario]);
-
-  /* Load script once */
-  useEffect(() => {
-    if (document.querySelector('script[data-maps]')) return;
-    const s = document.createElement('script');
-    s.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyB1XetSTO0NWa9ZveSHwwr2AaGpbyE4ATs&libraries=places&language=es&region=AR&callback=initMapsAutocomplete`;
-    s.async = true;
-    s.defer = true;
-    s.setAttribute('data-maps', '1');
-    document.body.appendChild(s);
-  }, []);
+  }, [authTab, editMode, usuario, dirInputRef, setDireccionData]);
 
   const handleLogin = async () => {
     setError('');
@@ -352,13 +280,22 @@ export default function AuthModal() {
                     {!mapsReady && (
                       <p className="text-xs text-texto-medio/70">Ingresá calle, número y localidad (ej: Av. Colón 1234, Córdoba)</p>
                     )}
-                    {/* Map link */}
-                    <div ref={mapPreviewRef} className="hidden mt-1" />
                     {direccionData && (
                       <div className="flex items-center gap-2 text-xs text-verde bg-green-50 border border-green-200 px-3 py-2 rounded-lg mt-1">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                         {direccionData.text}
                       </div>
+                    )}
+                    {direccionData?.formatted && (
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(direccionData.formatted)}${direccionData.placeId ? `&query_place_id=${direccionData.placeId}` : ''}`}
+                        target="_blank"
+                        rel="noopener"
+                        className="flex items-center gap-2 text-xs text-verde underline hover:text-verde-claro mt-1"
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        Ver en Google Maps
+                      </a>
                     )}
                   </div>
 
