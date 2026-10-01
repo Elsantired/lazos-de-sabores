@@ -62,9 +62,6 @@ export default function ProductCard({ producto, categoria, index }: Props) {
         ) : (
           <div className="text-6xl opacity-40">🧀</div>
         )}
-        <div className="absolute top-2 left-2 bg-verde text-crema text-xs font-bold px-2 py-0.5 rounded-full">
-          {categoria.nombre}
-        </div>
       </div>
 
       {/* Content */}
