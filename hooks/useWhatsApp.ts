@@ -26,12 +26,9 @@ export function useWhatsApp() {
 
     const total = items.reduce((sum, i) => sum + subtotalItem(i), 0);
 
-    let mensaje = `🧀 *PEDIDO — Lazos de Sabores*\n`;
-    mensaje += `━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-    mensaje += `📋 *DETALLE DEL PEDIDO:*\n\n`;
+    let mensaje = `Hola Lazos de Sabores! Necesito hacer el siguiente pedido:\n\n`;
     mensaje += lineas.join('\n\n');
-    mensaje += `\n\n━━━━━━━━━━━━━━━━━━━━━━━`;
-    mensaje += `\n💰 *Total ${hayAproximados ? 'aproximado' : ''}:* ${formatPrecio(total)}`;
+    mensaje += `\n\n💰 *Total ${hayAproximados ? 'aproximado' : ''}:* ${formatPrecio(total)}`;
     if (hayAproximados) {
       mensaje += `\n\n⚠️ _Los precios de hormas son estimados según el peso promedio de cada pieza. El vendedor te va a confirmar el total exacto al coordinar la entrega, una vez pesada la pieza real._`;
     }
