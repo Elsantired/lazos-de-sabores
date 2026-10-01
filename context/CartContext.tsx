@@ -2,7 +2,6 @@
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { Variante, buscarVariante } from '@/data/catalog';
-import { reproducirSonidoAgregado } from '@/lib/sound';
 
 export interface CartItem {
   id: string;
@@ -70,7 +69,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
       if (existing) return prev.map(i => i.id === item.id ? { ...i, cantidad: i.cantidad + 1 } : i);
       return [...prev, { ...item, cantidad: 1 }];
     });
-    reproducirSonidoAgregado();
   };
 
   const removeItem = (id: string) => setItems(prev => prev.filter(i => i.id !== id));
