@@ -66,57 +66,65 @@ export default function ProductCard({ producto, categoria, index }: Props) {
       </div>
 
       {/* Content */}
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="font-['Playfair_Display'] font-semibold text-verde text-base mb-1">{producto.nombre}</h3>
+      <div className="p-4 flex flex-col flex-1 gap-3">
+        <h3 className="font-['Playfair_Display'] font-semibold text-verde text-base">{producto.nombre}</h3>
 
         {/* Fundido flavor selector */}
         {producto.esFundido && categoria.sabores && (
-          <select
-            value={sabor}
-            onChange={e => setSabor(e.target.value)}
-            className="text-xs border border-crema-oscuro rounded-lg px-2 py-1 mb-2 bg-crema text-texto w-full"
-          >
-            {categoria.sabores.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-texto-medio/70">Sabor</span>
+            <select
+              value={sabor}
+              onChange={e => setSabor(e.target.value)}
+              className="text-xs border border-crema-oscuro rounded-lg px-2 py-1.5 bg-crema text-texto w-full"
+            >
+              {categoria.sabores.map(s => <option key={s} value={s}>{s}</option>)}
+            </select>
+          </div>
         )}
 
         {/* Variante selector */}
         {producto.variantes.length > 1 && (
-          <div className="flex gap-1 mb-2 flex-wrap">
-            {producto.variantes.map((v, i) => (
-              <button
-                key={i}
-                onClick={() => setVarianteIdx(i)}
-                className={`text-xs px-2 py-1 rounded-full border transition-colors ${
-                  varianteIdx === i
-                    ? 'bg-verde text-crema border-verde'
-                    : 'border-crema-oscuro text-texto-medio hover:border-verde'
-                }`}
-              >
-                {v.tipo}
-              </button>
-            ))}
+          <div className="flex flex-col gap-1">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-texto-medio/70">Presentación</span>
+            <div className="flex gap-1 flex-wrap">
+              {producto.variantes.map((v, i) => (
+                <button
+                  key={i}
+                  onClick={() => setVarianteIdx(i)}
+                  className={`text-xs px-2 py-1 rounded-full border transition-colors ${
+                    varianteIdx === i
+                      ? 'bg-verde text-crema border-verde'
+                      : 'border-crema-oscuro text-texto-medio hover:border-verde'
+                  }`}
+                >
+                  {v.tipo}
+                </button>
+              ))}
+            </div>
           </div>
         )}
 
-        <div className="mt-auto pt-3 flex items-center justify-between border-t border-crema-oscuro/50">
-          <div>
-            <span className="text-verde font-bold text-lg">{formatPrecio(varianteActual.precio)}</span>
-            <span className="text-texto-medio text-xs ml-1">{varianteActual.unidad}</span>
+        {/* Price + add */}
+        <div className="mt-auto pt-3 border-t border-crema-oscuro/50 flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <div className="flex items-baseline gap-1 flex-wrap">
+              <span className="text-verde font-bold text-lg">{formatPrecio(varianteActual.precio)}</span>
+              <span className="text-texto-medio text-xs">{varianteActual.unidad}</span>
+            </div>
             {varianteActual.pesoAprox && (
-              <p className="text-texto-medio text-xs">
-                ≈ {formatPrecio(varianteActual.precio * varianteActual.pesoAprox)} la pieza ({varianteActual.pesoAprox}kg aprox)
-              </p>
+              <p className="text-texto-medio/70 text-xs">≈ {varianteActual.pesoAprox}kg la pieza</p>
             )}
           </div>
           <button
             onClick={handleAdd}
-            className="bg-verde text-crema text-xs font-bold px-3 py-1.5 rounded-full hover:bg-verde-claro transition-colors flex items-center gap-1"
+            aria-label={`Agregar ${producto.nombre} al carrito`}
+            title="Agregar al carrito"
+            className="shrink-0 w-9 h-9 bg-verde text-crema rounded-full flex items-center justify-center hover:bg-verde-claro transition-colors"
           >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
             </svg>
-            Agregar
           </button>
         </div>
       </div>

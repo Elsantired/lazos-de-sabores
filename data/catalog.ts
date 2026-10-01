@@ -84,7 +84,7 @@ export const CATALOGO: Categoria[] = [
         slug: 'queso-mini-fynbo-arroyo-cabral',
         img: AC_IMG + 'semiblandos/mini-fynbo.jpg',
         alt: 'Queso Mini Fynbo Arroyo Cabral',
-        variantes: [{ tipo: 'Horma completa', precio: 17360, unidad: '/kg' }],
+        variantes: [{ tipo: 'Horma completa', precio: 17360, unidad: '/kg', pesoAprox: 0.85 }],
       },
       {
         id: 'holanda',
@@ -93,8 +93,8 @@ export const CATALOGO: Categoria[] = [
         img: AC_IMG + 'semiblandos/holanda.jpg',
         alt: 'Queso Holanda Arroyo Cabral',
         variantes: [
-          { tipo: 'Horma completa', precio: 14430, unidad: '/kg' },
-          { tipo: '½ Horma', precio: 15200, unidad: '/kg' },
+          { tipo: 'Horma completa', precio: 14430, unidad: '/kg', pesoAprox: 4.5 },
+          { tipo: '½ Horma', precio: 15200, unidad: '/kg', pesoAprox: 2.25 },
         ],
       },
       {
