@@ -49,13 +49,13 @@ export default function ProductCard({ producto, categoria, index }: Props) {
       className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 flex flex-col"
     >
       {/* Image */}
-      <div className="relative h-48 bg-gradient-to-br from-[#e2ddd6] to-[#c8c4bc] flex items-center justify-center overflow-hidden">
+      <div className="relative aspect-[3/2] bg-gradient-to-br from-[#e2ddd6] to-[#c8c4bc] flex items-center justify-center overflow-hidden">
         {!imgError ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imgSrc}
             alt={producto.alt}
-            className="w-full h-full object-contain p-2"
+            className="w-full h-full object-cover"
             onError={() => setImgError(true)}
             loading="lazy"
           />
