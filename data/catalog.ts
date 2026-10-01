@@ -327,18 +327,18 @@ export const CATALOGO: Categoria[] = [
     productos: [
       {
         id: 'ddl-clasico',
-        nombre: 'Dulce de Leche Clásico',
+        nombre: 'Dulce de Leche Clásico (1kg)',
         slug: 'dulce-de-leche-clasico-arroyo-cabral',
         img: AC_IMG + 'dulces/clasico.jpg',
-        alt: 'Dulce de Leche Clásico Arroyo Cabral — Córdoba',
+        alt: 'Dulce de Leche Clásico Arroyo Cabral 1kg — Córdoba',
         variantes: [{ tipo: 'Por unidad', precio: 4400, unidad: 'c/u' }],
       },
       {
         id: 'ddl-repostero',
-        nombre: 'Dulce de Leche Repostero',
+        nombre: 'Dulce de Leche Repostero (1kg)',
         slug: 'dulce-de-leche-repostero-arroyo-cabral',
         img: AC_IMG + 'dulces/repostero.jpg',
-        alt: 'Dulce de Leche Repostero Arroyo Cabral',
+        alt: 'Dulce de Leche Repostero Arroyo Cabral 1kg',
         variantes: [{ tipo: 'Por unidad', precio: 5000, unidad: 'c/u' }],
       },
     ],
