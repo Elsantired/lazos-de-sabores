@@ -11,21 +11,30 @@ export function useWhatsApp() {
       return;
     }
 
-    const lineas = items.map(item => {
+    const hayAproximados = items.some(i => i.variante.pesoAprox);
+
+    const lineas = items.map((item, idx) => {
       const nombre = item.sabor ? `${item.nombre} (${item.sabor})` : item.nombre;
-      const precio = formatPrecio(item.variante.precio);
-      const pesoTxt = item.variante.pesoAprox ? ` (≈${item.variante.pesoAprox}kg c/u)` : '';
-      return `• ${item.cantidad}x ${nombre} — ${item.variante.tipo} @ ${precio}${item.variante.unidad}${pesoTxt} = ${formatPrecio(subtotalItem(item))}`;
+      let bloque = `${idx + 1}. *${nombre}* — ${item.variante.tipo} (x${item.cantidad})\n`;
+      if (item.variante.pesoAprox) {
+        bloque += `   Peso aprox: ${item.variante.pesoAprox}kg c/u · Precio aprox: ${formatPrecio(subtotalItem(item))}`;
+      } else {
+        bloque += `   Precio: ${formatPrecio(subtotalItem(item))}`;
+      }
+      return bloque;
     });
 
     const total = items.reduce((sum, i) => sum + subtotalItem(i), 0);
 
     let mensaje = `🧀 *PEDIDO — Lazos de Sabores*\n`;
     mensaje += `━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
-    mensaje += `📋 *DETALLE DEL PEDIDO:*\n`;
-    mensaje += lineas.join('\n');
-    mensaje += `\n\n💰 *Subtotal estimado:* ${formatPrecio(total)}`;
-    mensaje += `\n_(El precio final de las hormas depende del peso exacto)_\n`;
+    mensaje += `📋 *DETALLE DEL PEDIDO:*\n\n`;
+    mensaje += lineas.join('\n\n');
+    mensaje += `\n\n━━━━━━━━━━━━━━━━━━━━━━━`;
+    mensaje += `\n💰 *Total ${hayAproximados ? 'aproximado' : ''}:* ${formatPrecio(total)}`;
+    if (hayAproximados) {
+      mensaje += `\n\n⚠️ _Los precios de hormas son estimados según el peso promedio de cada pieza. El vendedor te va a confirmar el total exacto al coordinar la entrega, una vez pesada la pieza real._`;
+    }
 
     if (usuario) {
       mensaje += `\n\n👤 *DATOS DE ENTREGA:*\n`;
