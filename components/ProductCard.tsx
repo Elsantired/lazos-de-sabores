@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Producto, Categoria, formatPrecio } from '@/data/catalog';
 import { useCart } from '@/context/CartContext';
 
@@ -17,6 +17,7 @@ export default function ProductCard({ producto, categoria, index }: Props) {
   const [varianteIdx, setVarianteIdx] = useState(0);
   const [sabor, setSabor] = useState(categoria.sabores?.[0] || '');
   const [imgError, setImgError] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
 
   const varianteActual = producto.variantes[varianteIdx];
 
@@ -35,6 +36,9 @@ export default function ProductCard({ producto, categoria, index }: Props) {
       variante: varianteActual,
       sabor: producto.esFundido ? sabor : undefined,
     });
+
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 900);
   };
 
   const imgSrc = producto.esFundido && sabor && categoria.saboresImgs?.[sabor]
@@ -115,16 +119,42 @@ export default function ProductCard({ producto, categoria, index }: Props) {
               <p className="text-texto-medio/70 text-xs">≈ {varianteActual.pesoAprox}kg la pieza</p>
             )}
           </div>
-          <button
+          <motion.button
             onClick={handleAdd}
             aria-label={`Agregar ${producto.nombre} al carrito`}
             title="Agregar al carrito"
-            className="shrink-0 w-9 h-9 bg-verde text-crema rounded-full flex items-center justify-center hover:bg-verde-claro transition-colors"
+            animate={justAdded ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className={`shrink-0 w-9 h-9 rounded-full flex items-center justify-center transition-colors ${
+              justAdded ? 'bg-dorado text-verde' : 'bg-verde text-crema hover:bg-verde-claro'
+            }`}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-            </svg>
-          </button>
+            <AnimatePresence mode="wait" initial={false}>
+              {justAdded ? (
+                <motion.svg
+                  key="check"
+                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"
+                  initial={{ scale: 0, rotate: -45 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  exit={{ scale: 0 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  <polyline points="20 6 9 17 4 12"/>
+                </motion.svg>
+              ) : (
+                <motion.svg
+                  key="plus"
+                  width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                </motion.svg>
+              )}
+            </AnimatePresence>
+          </motion.button>
         </div>
       </div>
     </motion.div>
