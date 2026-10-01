@@ -363,3 +363,13 @@ export const CATALOGO: Categoria[] = [
 
 export const formatPrecio = (precio: number) =>
   new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(precio);
+
+export function buscarVariante(productoId: string, varianteIdx: number): { categoria: Categoria; producto: Producto; variante: Variante } | null {
+  for (const categoria of CATALOGO) {
+    const producto = categoria.productos.find(p => p.id === productoId);
+    if (producto && producto.variantes[varianteIdx]) {
+      return { categoria, producto, variante: producto.variantes[varianteIdx] };
+    }
+  }
+  return null;
+}

@@ -28,6 +28,8 @@ export default function ProductCard({ producto, categoria, index }: Props) {
     addItem({
       id: `${producto.id}-${varianteIdx}${sabor ? `-${sabor}` : ''}`,
       catId: categoria.id,
+      productoId: producto.id,
+      varianteIdx,
       nombre: producto.nombre,
       img,
       variante: varianteActual,

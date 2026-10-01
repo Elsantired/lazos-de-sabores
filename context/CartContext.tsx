@@ -1,16 +1,29 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { Variante } from '@/data/catalog';
+import { Variante, buscarVariante } from '@/data/catalog';
 
 export interface CartItem {
   id: string;
   catId: string;
+  productoId: string;
+  varianteIdx: number;
   nombre: string;
   img: string;
   variante: Variante;
   cantidad: number;
   sabor?: string;
+}
+
+// Refresca nombre/imagen/variante contra el catálogo vigente, para que un
+// carrito guardado en el navegador no arrastre precios o pesos viejos.
+function rehidratar(item: CartItem): CartItem | null {
+  const actual = buscarVariante(item.productoId, item.varianteIdx);
+  if (!actual) return null;
+  const img = item.sabor && actual.categoria.saboresImgs?.[item.sabor]
+    ? actual.categoria.saboresImgs[item.sabor]
+    : actual.producto.img;
+  return { ...item, catId: actual.categoria.id, nombre: actual.producto.nombre, img, variante: actual.variante };
 }
 
 interface CartContextType {
@@ -36,7 +49,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem('lzs_carrito');
-    if (saved) setItems(JSON.parse(saved));
+    if (saved) {
+      const parsed: CartItem[] = JSON.parse(saved);
+      const vigentes = parsed.map(rehidratar).filter((i): i is CartItem => i !== null);
+      setItems(vigentes);
+    }
   }, []);
 
   useEffect(() => {
